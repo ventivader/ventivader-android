@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ventivader-android</string>
+    <string name="checking_bluetooth">Checking Bluetooth</string>
 </resources>
