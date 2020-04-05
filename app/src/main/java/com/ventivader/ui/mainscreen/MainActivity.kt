@@ -1,6 +1,5 @@
 package com.ventivader.ui.mainscreen
 
-import android.bluetooth.BluetoothDevice
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -16,9 +15,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val bluetoothConnectionViewModel: BluetoothConnectionViewModel by viewModels {
         BluetoothConnectionViewModel.BluetoothConnectionViewModelFactory (
-                applicationContext,
-                intent.getParcelableExtra(EXTRA_BLUETOOTH_DEVICE_INTENT)!!
-            )
+            applicationContext
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,12 +66,8 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
 
-        const val EXTRA_BLUETOOTH_DEVICE_INTENT = "EXTRA_BLUETOOTH_DEVICE_INTENT"
-
-        fun getIntent(context: Context, bluetoothDevice: BluetoothDevice) : Intent {
-            return Intent(context, MainActivity::class.java).apply {
-                putExtra(EXTRA_BLUETOOTH_DEVICE_INTENT, bluetoothDevice)
-            }
+        fun getIntent(context: Context) : Intent {
+            return Intent(context, MainActivity::class.java)
         }
     }
 }
