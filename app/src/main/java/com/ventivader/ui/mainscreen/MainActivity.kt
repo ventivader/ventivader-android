@@ -13,11 +13,7 @@ import com.ventivader.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val bluetoothConnectionViewModel: BluetoothConnectionViewModel by viewModels {
-        BluetoothConnectionViewModel.BluetoothConnectionViewModelFactory (
-            applicationContext
-        )
-    }
+    private val BLEConnectionViewModel: BLEConnectionViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,18 +27,18 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
 
         listenForVentilateButtonPress()
-        observerBluetoothConnection()
+        observeSolenoidParametersOverBluetooth()
         updateViews()
     }
 
     private fun listenForVentilateButtonPress() {
         binding.ventilateButton.setOnClickListener {
-            bluetoothConnectionViewModel.sendSolenoidParameters()
+            BLEConnectionViewModel.sendSolenoidParameters()
         }
     }
 
-    private fun observerBluetoothConnection() {
-        bluetoothConnectionViewModel.solenoidParametersLiveData.observe (this, Observer {
+    private fun observeSolenoidParametersOverBluetooth() {
+        BLEConnectionViewModel.solenoidParametersLiveData.observe (this, Observer {
             updateViews()
         })
     }
@@ -55,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         binding.exhaleHoldLabel.label.text = getString(R.string.exhale_hold_time_in_secs)
         binding.ventilationCyclesLabel.label.text = getString(R.string.num_ventilation_cycles)
 
-        bluetoothConnectionViewModel.solenoidParametersLiveData.value?.let {
+        BLEConnectionViewModel.solenoidParametersLiveData.value?.let {
             binding.exhaleTimeLabel.input.setText(it.exhaleSec)
             binding.exhaleHoldLabel.input.setText(it.exhaleHoldSec)
             binding.inhaleTimeLabel.input.setText(it.inhaleSec)
