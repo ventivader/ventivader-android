@@ -1,18 +1,18 @@
 package com.ventivader
 
 import android.app.Application
-import com.ventivader.ui.ble.BluetoothHelper
+import com.ventivader.ble.BleConnectionManager
 
 
 class VentivaderApplication : Application() {
 
     lateinit var application: Application
-    lateinit var bluetoothHelper: BluetoothHelper
+    lateinit var bleConnectionManager: BleConnectionManager
 
     override fun onCreate() {
         super.onCreate()
 
         application = this
-        bluetoothHelper = BluetoothHelper(this)
+        bleConnectionManager = BleConnectionManager(this)
     }
 }
