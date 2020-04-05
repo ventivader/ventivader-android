@@ -1,4 +1,4 @@
-package com.ventivader.ui.splashscreen
+package com.ventivader.ui.scanscreen
 
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
@@ -10,19 +10,18 @@ import com.ventivader.R
 import com.ventivader.VentivaderApplication
 import com.ventivader.ble.BluetoothConnectionStatus
 import com.ventivader.ui.mainscreen.MainActivity
-import com.ventivader.ui.splashscreen.ble.BluetoothScanViewModel
 import kotlinx.android.synthetic.main.splash_layout.*
 
-class SplashActivity : AppCompatActivity(), Observer<BluetoothConnectionStatus> {
+class BleScanActivity : AppCompatActivity(), Observer<BluetoothConnectionStatus> {
 
-    private val bluetoothConnectionViewModel: BluetoothScanViewModel by viewModels()
+    private val bleScanAndConnectViewModel: BleScanViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.splash_layout)
 
-        if( (application as VentivaderApplication).bluetoothHelper.isBluetoothDisabled()) {
+        if( (application as VentivaderApplication).bleConnectionManager.isBluetoothDisabled()) {
             val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
             startActivityForResult(enableBtIntent,
                 REQUEST_ENABLE_BT
@@ -33,37 +32,34 @@ class SplashActivity : AppCompatActivity(), Observer<BluetoothConnectionStatus> 
     }
 
     private fun startBleScan() {
-        bluetoothConnectionViewModel.liveData.observe(this, this)
-        bluetoothConnectionViewModel.findBleDevice()
+
+        bleScanAndConnectViewModel.liveData.observe(this, this)
+
+        bleScanAndConnectViewModel.findAndConnectBleDevice()
     }
 
     override fun onChanged(connectionStatus: BluetoothConnectionStatus?) {
 
+        bluetooth_status_label.text = connectionStatus?.plainConnectionStatus
+
         when(connectionStatus) {
 
             is BluetoothConnectionStatus.Connecting -> {
-                bluetooth_status_label.text = connectionStatus.plainConnectionStatus
                 progress_bar.show()
             }
 
             is BluetoothConnectionStatus.Success -> {
                 progress_bar.hide()
 
-                val statusText = connectionStatus.plainConnectionStatus + "" + connectionStatus.bluetoothDevice.name
-                bluetooth_status_label.text = statusText
-
                 startActivity(
                     MainActivity.getIntent(
-                        this@SplashActivity,
-                        connectionStatus.bluetoothDevice
+                        this@BleScanActivity
                     )
                 )
             }
 
             is BluetoothConnectionStatus.Error -> {
                 progress_bar.hide()
-
-                bluetooth_status_label.text = connectionStatus.plainConnectionStatus
 
                 // TODO - should allow user to try again.. or just retry indefinitely
                 // but this is good for MVP
