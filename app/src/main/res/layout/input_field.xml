@@ -16,7 +16,7 @@
         android:layout_marginLeft="30dp"
         android:text="Inhale time (secs)"
         android:textColor="@android:color/darker_gray"
-        android:textSize="25dp"
+        android:textSize="@dimen/label"
         />
 
     <EditText
@@ -29,7 +29,7 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:textSize="25dp"
+        android:textSize="@dimen/label"
         android:layout_marginStart="30dp"
         />
 

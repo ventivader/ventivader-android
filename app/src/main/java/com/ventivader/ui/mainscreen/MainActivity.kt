@@ -7,8 +7,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import com.ventivader.VentivaderApplication
+import com.ventivader.R
 import com.ventivader.databinding.ActivityMainBinding
 
 
@@ -51,6 +50,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateViews() {
+
+        binding.inhaleTimeLabel.label.text = getString(R.string.inhale_time_in_secs)
+        binding.inhaleHoldLabel.label.text = getString(R.string.inhale_hold_time_in_secs)
+        binding.exhaleTimeLabel.label.text = getString(R.string.exhale_time_in_secs)
+        binding.exhaleHoldLabel.label.text = getString(R.string.exhale_hold_time_in_secs)
+        binding.ventilationCyclesLabel.label.text = getString(R.string.num_ventilation_cycles)
+
         bluetoothConnectionViewModel.solenoidParametersLiveData.value?.let {
             binding.exhaleTimeLabel.input.setText(it.exhaleSec)
             binding.exhaleHoldLabel.input.setText(it.exhaleHoldSec)

@@ -49,12 +49,9 @@ class BluetoothScanViewModel(application: Application) : AndroidViewModel(applic
 
             result?.device?.let {
 
-                if (result.scanRecord?.serviceUuids?.contains(ParcelUuid(UUID.fromString(VENTI_VADER_SERVICE_UUID))) == true) {
+                stopScan()
 
-                    stopScan()
-
-                    liveData.value = BluetoothConnectionStatus.Success(it)
-                }
+                liveData.value = BluetoothConnectionStatus.Success(it)
             }
         }
 

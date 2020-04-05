@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">ventivader-android</string>
     <string name="checking_bluetooth">Checking Bluetooth</string>
+    <string name="inhale_time_in_secs">inhale time in secs</string>
+    <string name="inhale_hold_time_in_secs">inhale hold time in secs</string>
+    <string name="exhale_time_in_secs">exhale time in secs</string>
+    <string name="exhale_hold_time_in_secs">exhale hold time in secs</string>
+    <string name="num_ventilation_cycles">Num of ventilation cycles</string>
 </resources>

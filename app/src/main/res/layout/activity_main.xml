@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="30dp"
+    android:padding="@dimen/layout_padding"
     tools:context=".ui.mainscreen.MainActivity">
 
     <TextView
@@ -18,7 +18,7 @@
         app:layout_constraintBottom_toTopOf="@id/inhale_time_label"
         app:layout_constraintRight_toRightOf="parent"
         android:textColor="@android:color/black"
-        android:textSize="50dp"/>
+        android:textSize="@dimen/title_size"/>
 
 
     <TextView
@@ -30,7 +30,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:textSize="25dp"/>
+        android:textSize="@dimen/label"/>
 
     <TextView
         android:id="@+id/exhale_label"
@@ -41,7 +41,7 @@
         android:layout_marginTop="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/inhale_label"
-        android:textSize="25dp"/>
+        android:textSize="@dimen/label"/>
 
 
     <TextView
@@ -52,7 +52,7 @@
         android:layout_marginTop="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/exhale_label"
-        android:textSize="25dp"/>
+        android:textSize="@dimen/label"/>
 
     <Button
         android:id="@+id/resetButton"
@@ -63,7 +63,7 @@
         android:layout_marginTop="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:textSize="25dp"/>
+        android:textSize="@dimen/label"/>
 
     <Button
         android:id="@+id/ventilateButton"
@@ -74,7 +74,7 @@
         android:layout_marginTop="20dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:textSize="25dp"/>
+        android:textSize="@dimen/label"/>
 
 
     <include
@@ -122,10 +122,6 @@
         app:layout_constraintTop_toBottomOf="@id/exhale_hold_label"
         app:layout_constraintLeft_toRightOf="@id/exhale_label"
         app:layout_constraintRight_toRightOf="parent" />
-
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
