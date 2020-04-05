@@ -37,24 +37,25 @@ class SplashActivity : AppCompatActivity(), Observer<BluetoothConnectionStatus> 
         bluetoothConnectionViewModel.findBleDevice()
     }
 
-    override fun onChanged(t: BluetoothConnectionStatus?) {
+    override fun onChanged(connectionStatus: BluetoothConnectionStatus?) {
 
-        when(t) {
+        when(connectionStatus) {
 
             is BluetoothConnectionStatus.Connecting -> {
-                bluetooth_status_label.text = t.plainConnectionStatus
+                bluetooth_status_label.text = connectionStatus.plainConnectionStatus
                 progress_bar.show()
             }
 
             is BluetoothConnectionStatus.Success -> {
                 progress_bar.hide()
 
-                val statusText = t.plainConnectionStatus + "" + t.bluetoothDevice.name
+                val statusText = connectionStatus.plainConnectionStatus + "" + connectionStatus.bluetoothDevice.name
                 bluetooth_status_label.text = statusText
 
                 startActivity(
                     MainActivity.getIntent(
-                        this@SplashActivity
+                        this@SplashActivity,
+                        connectionStatus.bluetoothDevice
                     )
                 )
             }
@@ -62,7 +63,10 @@ class SplashActivity : AppCompatActivity(), Observer<BluetoothConnectionStatus> 
             is BluetoothConnectionStatus.Error -> {
                 progress_bar.hide()
 
-                bluetooth_status_label.text = t.plainConnectionStatus
+                bluetooth_status_label.text = connectionStatus.plainConnectionStatus
+
+                // TODO - should allow user to try again.. or just retry indefinitely
+                // but this is good for MVP
                 finish()
             }
         }
