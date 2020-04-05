@@ -28,7 +28,7 @@ class BluetoothConnectionViewModel(application: Application, var bluetoothDevice
     }
 
     private fun connectDevice() {
-        //bluetoothDevice.connectGatt(getApplication(), true, )
+        bluetoothDevice.connectGatt(getApplication(), true, )
 
         // TODO - Presumably upon connection we would do a GATT read operation and update liveData.
     }
