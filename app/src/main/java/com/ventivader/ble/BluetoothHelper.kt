@@ -4,8 +4,11 @@ import android.app.Application
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
 import android.bluetooth.le.ScanCallback
-import android.bluetooth.le.ScanResult
+import android.bluetooth.le.ScanFilter
+import android.bluetooth.le.ScanSettings
 import android.content.Context
+import android.os.ParcelUuid
+import java.util.*
 
 
 class BluetoothHelper(private val application: Application) {
@@ -27,11 +30,20 @@ class BluetoothHelper(private val application: Application) {
         if(isBluetoothEnabled()) {
             stopScan(scanCallback)
 
-            bluetoothAdapter?.bluetoothLeScanner?.startScan(scanCallback)
+            val filter = ScanFilter.Builder()
+                .setServiceUuid(ParcelUuid(UUID.fromString(VENTI_VADER_SERVICE_UUID)))
+                .build()
+
+            bluetoothAdapter?.bluetoothLeScanner?.startScan(listOf(filter),
+                ScanSettings.Builder().build(), scanCallback)
         }
     }
 
     fun stopScan(scanCallback: ScanCallback) {
         bluetoothAdapter?.bluetoothLeScanner?.stopScan(scanCallback)
+    }
+
+    companion object {
+        const val VENTI_VADER_SERVICE_UUID = "2E70DF6A-7FAB-44A4-9B20-C12F5D1E726C"
     }
 }

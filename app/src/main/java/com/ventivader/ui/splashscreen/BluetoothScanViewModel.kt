@@ -3,15 +3,17 @@ package com.ventivader.ui.splashscreen.ble
 import android.app.Application
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
+import android.os.ParcelUuid
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.ventivader.R
 import com.ventivader.VentivaderApplication
 import com.ventivader.ble.BluetoothConnectionStatus
+import com.ventivader.ui.ble.BluetoothHelper.Companion.VENTI_VADER_SERVICE_UUID
+import java.util.*
 
 
 class BluetoothScanViewModel(application: Application) : AndroidViewModel(application) {
-    private var deviceID: String = ""
 
     private val scanCallback = BluetoothScanCallback()
 
@@ -19,9 +21,7 @@ class BluetoothScanViewModel(application: Application) : AndroidViewModel(applic
         BluetoothConnectionStatus.Connecting
     }
 
-    fun findBleDevice(deviceID: String) {
-
-        this.deviceID = deviceID
+    fun findBleDevice() {
 
         val bluetoothHelper = getApplication<VentivaderApplication>().bluetoothHelper
         if(bluetoothHelper.isBluetoothEnabled()) {
@@ -49,7 +49,7 @@ class BluetoothScanViewModel(application: Application) : AndroidViewModel(applic
 
             result?.device?.let {
 
-                if (result.scanRecord?.deviceName == deviceID) {
+                if (result.scanRecord?.serviceUuids?.contains(ParcelUuid(UUID.fromString(VENTI_VADER_SERVICE_UUID))) == true) {
 
                     stopScan()
 

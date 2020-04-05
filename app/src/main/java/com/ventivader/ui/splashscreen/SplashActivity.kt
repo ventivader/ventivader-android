@@ -34,7 +34,7 @@ class SplashActivity : AppCompatActivity(), Observer<BluetoothConnectionStatus> 
 
     private fun startBleScan() {
         bluetoothConnectionViewModel.liveData.observe(this, this)
-        bluetoothConnectionViewModel.findBleDevice("deviceID")
+        bluetoothConnectionViewModel.findBleDevice()
     }
 
     override fun onChanged(t: BluetoothConnectionStatus?) {
