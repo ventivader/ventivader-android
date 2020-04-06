@@ -43,7 +43,8 @@ class BleConnectionManager(private val application: Application) {
                 .setServiceUuid(ParcelUuid(UUID.fromString(VENTI_VADER_SERVICE_UUID)))
                 .build()
 
-            bluetoothAdapter?.bluetoothLeScanner?.startScan(listOf(filter),
+            //bluetoothAdapter?.bluetoothLeScanner?.startScan(listOf(filter),
+            bluetoothAdapter?.bluetoothLeScanner?.startScan(null,
                 ScanSettings.Builder().build(), scanCallback)
         }
     }

@@ -1,16 +1,22 @@
 package com.ventivader.ui.scanscreen
 
+import android.Manifest
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.ventivader.R
 import com.ventivader.VentivaderApplication
 import com.ventivader.ble.BluetoothConnectionStatus
 import com.ventivader.ui.mainscreen.MainActivity
 import kotlinx.android.synthetic.main.splash_layout.*
+
 
 class BleScanActivity : AppCompatActivity(), Observer<BluetoothConnectionStatus> {
 
@@ -27,7 +33,7 @@ class BleScanActivity : AppCompatActivity(), Observer<BluetoothConnectionStatus>
                 REQUEST_ENABLE_BT
             )
         } else {
-            startBleScan()
+            checkBTPermission()
         }
     }
 
@@ -72,11 +78,47 @@ class BleScanActivity : AppCompatActivity(), Observer<BluetoothConnectionStatus>
         super.onActivityResult(requestCode, resultCode, data)
 
         if(resultCode == RESULT_OK && requestCode == REQUEST_ENABLE_BT) {
+            checkBTPermission()
+        }
+    }
+
+    private fun checkBTPermission() {
+        val locationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+        val btAdminPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADMIN)
+
+        if (locationPermission != PackageManager.PERMISSION_GRANTED ||
+            btAdminPermission != PackageManager.PERMISSION_GRANTED) {
+            Log.i(TAG, "Permission for BT Course Location not granted yet")
+            getBTPermission()
+        } else {
             startBleScan()
         }
     }
 
+    private fun getBTPermission() {
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.BLUETOOTH_ADMIN), BT_PERMISSION_REQUEST_CODE)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                            permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            BT_PERMISSION_REQUEST_CODE -> {
+
+                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+
+                    Log.i(TAG, "Permission has been denied by user")
+                } else {
+                    Log.i(TAG, "Permission has been granted by user")
+
+                    startBleScan()
+                }
+            }
+        }
+    }
+
     companion object {
+        const val TAG = "BleScanActivity"
         private const val REQUEST_ENABLE_BT: Int = 1
+        private const val BT_PERMISSION_REQUEST_CODE = 101
     }
 }
