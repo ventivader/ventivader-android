@@ -103,9 +103,9 @@ class BleScanActivity : AppCompatActivity(), Observer<BluetoothConnectionStatus>
     private fun getBTPermission() {
         ActivityCompat.requestPermissions(this,
             arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.BLUETOOTH_ADMIN,
-            Manifest.permission.BLUETOOTH,
-            Manifest.permission.ACCESS_FINE_LOCATION),
+                    Manifest.permission.BLUETOOTH_ADMIN,
+                    Manifest.permission.BLUETOOTH,
+                    Manifest.permission.ACCESS_FINE_LOCATION),
             BT_PERMISSION_REQUEST_CODE)
     }
 

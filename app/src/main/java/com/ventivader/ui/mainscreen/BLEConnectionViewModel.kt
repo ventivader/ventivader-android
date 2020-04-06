@@ -14,7 +14,7 @@ class BLEConnectionViewModel(application: Application) : AndroidViewModel(applic
         getApplication<VentivaderApplication>().bleConnectionManager
             .retrieveSolenoidParameters { solenoidParameters, exception ->
                 solenoidParameters?.let {
-                    solenoidParametersLiveData.value = solenoidParameters
+                    solenoidParametersLiveData.postValue(solenoidParameters)
                 }?: let {
                     Log.e(TAG, "Exception while retrieving solenoidParameters.", exception)
                 }
