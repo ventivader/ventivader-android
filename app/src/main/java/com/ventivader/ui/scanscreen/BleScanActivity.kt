@@ -83,12 +83,17 @@ class BleScanActivity : AppCompatActivity(), Observer<BluetoothConnectionStatus>
     }
 
     private fun checkBTPermission() {
-        val locationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-        val btAdminPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADMIN)
+        val finePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        val coarsePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+        val btPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH)
+        val adminPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADMIN)
 
-        if (locationPermission != PackageManager.PERMISSION_GRANTED ||
-            btAdminPermission != PackageManager.PERMISSION_GRANTED) {
-            Log.i(TAG, "Permission for BT Course Location not granted yet")
+        if (finePermission != PackageManager.PERMISSION_GRANTED ||
+            coarsePermission != PackageManager.PERMISSION_GRANTED ||
+            btPermission != PackageManager.PERMISSION_GRANTED ||
+            adminPermission != PackageManager.PERMISSION_GRANTED) {
+
+            Log.i(TAG, "Permissions not granted yet")
             getBTPermission()
         } else {
             startBleScan()
