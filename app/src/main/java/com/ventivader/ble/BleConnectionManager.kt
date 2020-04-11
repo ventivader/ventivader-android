@@ -21,7 +21,7 @@ class BleConnectionManager(private val application: Application) {
     private var connectedGATT: BluetoothGatt? = null
 
     private val solenoidParameterCharacteristicUUID = UUID.fromString(SOLENOID_PARAMETERS_CHARACTERISTIC_UUID)
-    private var readBleGattCharacteristic: BluetoothGattCharacteristic? = null
+    private var bleGattCharacteristic: BluetoothGattCharacteristic? = null
 
     // If defined, represents a pending BLE Chararacteristics request
     private lateinit var solenoidParametersCallback: ((SolenoidParameters?, Exception?) -> Unit)
@@ -112,7 +112,7 @@ class BleConnectionManager(private val application: Application) {
 
                         buildAndPublishSolenoidModel(it)
 
-                        readBleGattCharacteristic = it
+                        bleGattCharacteristic = it
                     }
                 }
                 else -> Log.e(TAG, "onCharacteristicRead : $status")
@@ -184,8 +184,7 @@ class BleConnectionManager(private val application: Application) {
 
         solenoidCharacteristic()?.let {
 
-            val solenoidParametersCharacteristic = it.toString()
-            Log.d(TAG, "Found Characteristic: '$solenoidParametersCharacteristic'")
+            Log.d(TAG, "Found Characteristic: '${it}'")
 
             connectedGATT?.readCharacteristic(it)
 
