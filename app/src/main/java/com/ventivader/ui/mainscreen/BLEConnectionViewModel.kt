@@ -23,14 +23,19 @@ class BLEConnectionViewModel(application: Application) : AndroidViewModel(applic
         // NJD TODO - listen for Notifications from the Service
     }
 
+    override fun onCleared() {
+        super.onCleared()
+
+        getApplication<VentivaderApplication>().bleConnectionManager.close()
+    }
+
     val solenoidParametersLiveData = MutableLiveData<SolenoidParameters>().apply {
         SolenoidParameters()
     }
 
-    fun sendSolenoidParameters() {
-        // TODO - GATT write operation
-        // For now, we will assume best effort.. eventually we would use blocking 'pending' modal and not
-        // dismiss until either we get a notification back from rPi or timeout...
+    fun sendSolenoidParameters(parameter: SolenoidParameters) {
+        getApplication<VentivaderApplication>().bleConnectionManager
+            .writeSolenoidParameter(parameter)
     }
 
     companion object {

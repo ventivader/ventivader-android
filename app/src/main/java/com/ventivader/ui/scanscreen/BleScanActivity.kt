@@ -62,6 +62,8 @@ class BleScanActivity : AppCompatActivity(), Observer<BluetoothConnectionStatus>
                         this@BleScanActivity
                     )
                 )
+
+                finish()
             }
 
             is BluetoothConnectionStatus.Error -> {
