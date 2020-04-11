@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.ventivader.R
 import com.ventivader.databinding.ActivityMainBinding
+import com.ventivader.models.SolenoidParameters
 
 
 class MainActivity : AppCompatActivity() {
@@ -19,8 +20,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+
+        setContentView(binding.root)
     }
 
     override fun onResume() {
@@ -33,8 +34,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun listenForVentilateButtonPress() {
         binding.ventilateButton.setOnClickListener {
-            BLEConnectionViewModel.sendSolenoidParameters()
+            BLEConnectionViewModel.sendSolenoidParameters(buildSolenoidModel())
         }
+    }
+
+    private fun buildSolenoidModel() : SolenoidParameters{
+        return SolenoidParameters(
+            binding.inhaleTimeLabel.input.text.toString().toInt(),
+            binding.inhaleHoldLabel.input.text.toString().toInt(),
+            binding.exhaleTimeLabel.input.text.toString().toInt(),
+            binding.exhaleHoldLabel.input.text.toString().toInt(),
+            binding.ventilationCyclesLabel.input.text.toString().toInt()
+        )
     }
 
     private fun observeSolenoidParametersOverBluetooth() {
@@ -52,11 +63,11 @@ class MainActivity : AppCompatActivity() {
         binding.ventilationCyclesLabel.label.text = getString(R.string.num_ventilation_cycles)
 
         BLEConnectionViewModel.solenoidParametersLiveData.value?.let {
-            binding.exhaleTimeLabel.input.setText(it.exhaleSec)
-            binding.exhaleHoldLabel.input.setText(it.exhaleHoldSec)
-            binding.inhaleTimeLabel.input.setText(it.inhaleSec)
-            binding.inhaleHoldLabel.input.setText(it.inhaleHoldSec)
-            binding.ventilationCyclesLabel.input.setText(it.numberVentCycles)
+            binding.exhaleTimeLabel.input.setText(it.exhaleSec.toString())
+            binding.exhaleHoldLabel.input.setText(it.exhaleHoldSec.toString())
+            binding.inhaleTimeLabel.input.setText(it.inhaleSec.toString())
+            binding.inhaleHoldLabel.input.setText(it.inhaleHoldSec.toString())
+            binding.ventilationCyclesLabel.input.setText(it.numberVentCycles.toString())
         }
     }
 
